@@ -1,24 +1,27 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This project is a very simple app for an internal workshop:
+- Rails 5.2
+- Vue 3
+- PostgreSQL database
+- Webpacker
 
-Things you may want to cover:
+# Dev env
+- Install:
+```
+bundle install
+yarn install
+```
 
-* Ruby version
+- Update DB configuration in `config/database.yml`
+- Run DB migration `rails db:migrate`
 
-* System dependencies
+- Run webpack
+```
+./bin/webpack-watcher
+```
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+- Start rails
+```
+rails server
+```
