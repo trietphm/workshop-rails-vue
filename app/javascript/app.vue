@@ -1,5 +1,7 @@
 <template>
-  <div class="list row">
+<div class="container">
+  <div class="submit-form">
+    <h1>Workshop: Sample Book List</h1>
     <div class="col-md-6">
       <h4>Add new book:</h4>
       <div>
@@ -18,6 +20,8 @@
         <button @click="createBook" class="btn btn-success">Add</button>
       </div>
     </div>
+  </div>
+  <div class="list row">
     <div class="col-md-6">
       <h4>Books:</h4>
       <ul class="list-group">
@@ -47,6 +51,7 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -125,5 +130,9 @@ export default {
   text-align: left;
   max-width: 750px;
   margin: auto;
+}
+.submit-form {
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 </style>
