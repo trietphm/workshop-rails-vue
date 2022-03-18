@@ -1,0 +1,14 @@
+- hosts: unicorn
+  become: true
+  tasks:
+    - name: create new user
+      command: "useradd -m holistics"
+    - name: create new dir /opt/app
+      command: "mkdir /opt/app"
+    - name: change own for the dir
+      command: "chown holistics:holistics /opt/app"
+    - name: install git and acl
+      shell: "apt install git acl -y"
+    - name: clone source code
+      become_user: holistics
+      shell: "git clone https://github.com/trietphm/workshop-rails-vue /opt/app"

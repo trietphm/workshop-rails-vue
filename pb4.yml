@@ -1,0 +1,18 @@
+- hosts: localhost
+  vars:
+    - username: John
+    - cargo:
+      - name: Apple
+        in_stock: true
+        price: $5
+      - name: Orange
+        in_stock: false
+        price: $4
+      - name: Peach
+        in_stock: true
+  tasks:
+    - name: process template
+      template:
+        src: templ.j2
+        dest: output
+

@@ -1,0 +1,14 @@
+- hosts: localhost
+  vars:
+    - file_path: "/tmp"
+    - file_name: "foo"
+    - message: "hello world"
+  tasks:
+    - name: touch a file
+      file:
+        path: "{{ file_path }}/{{ file_name }}"
+        state: touch
+    - name: copy content to file
+      copy:
+        content: "{{ message }}"
+        dest: "{{ file_path }}/{{ file_name }}"

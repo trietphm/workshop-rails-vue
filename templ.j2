@@ -1,0 +1,8 @@
+Hello {{ username }}
+
+{% for item in cargo %}
+Name: {{ item.name }}
+In stock: {% if item.in_stock %}Yes{% else %}No{% endif %}
+Price: {{ item.price | default ('N/A')}}
+
+{% endfor%}

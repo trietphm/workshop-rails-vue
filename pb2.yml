@@ -1,0 +1,23 @@
+- hosts: unicorn
+  become: true
+  tasks:
+    - name: create new user
+      user:
+        name: holistics
+    - name: create new dir /opt/app
+      file:
+        path: "/opt/app"
+        state: directory
+        owner: holistics
+        group: holistics
+        mode: '0755'
+    - name: install git & acl
+      apt:
+        name:
+          - git
+          - acl
+    - name: clone source code
+      become_user: holistics
+      git:
+        repo: https://github.com/trietphm/workshop-rails-vue
+        dest: "/opt/app"

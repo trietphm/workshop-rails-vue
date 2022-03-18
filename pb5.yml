@@ -1,0 +1,14 @@
+- hosts: localhost
+  tasks:
+    - name: "check if file /etc/hosts is exist or not"
+      stat:
+        path: /etc/hosts
+      register: result
+    - name: fail if the file does not exist
+      fail:
+        msg: "Ops, /etc/hosts does not exist"
+      when: not result.stat.exists
+    - name: print out owner of the /etc/hosts
+      debug:
+        msg: "Owner: {{ result.stat.pw_name }}"
+      when: result.stat.exists
