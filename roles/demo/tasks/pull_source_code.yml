@@ -1,4 +1,4 @@
-- name: create new dir /opt/app
+- name: "create new dir {{ demo_source_path }}"
   file:
     path: "{{ demo_source_path }}"
     state: directory

@@ -1,6 +1,6 @@
-Hello {{ username }}
+Hello {{ demo_template_username }}
 
-{% for item in cargo %}
+{% for item in demo_template_cargo %}
 Name: {{ item.name }}
 In stock: {% if item.in_stock %}Yes{% else %}No{% endif %}
 Price: {{ item.price | default ('N/A')}}

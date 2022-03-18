@@ -1,3 +1,4 @@
 - hosts: unicorn
+  become: true
   roles:
     - demo
