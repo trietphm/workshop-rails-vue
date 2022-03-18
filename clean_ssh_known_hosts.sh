@@ -1,6 +1,6 @@
-app1="192.168.60.4"
-app2="192.168.60.5"
-db="192.168.60.6"
+app1="192.168.56.4"
+app2="192.168.56.5"
+db="192.168.56.6"
 
 ssh-keygen -f "$HOME/.ssh/known_hosts" -R $app1
 ssh-keygen -f "$HOME/.ssh/known_hosts" -R $app2
