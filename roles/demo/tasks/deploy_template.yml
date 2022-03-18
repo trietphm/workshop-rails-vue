@@ -1,0 +1,4 @@
+- name: process template
+  template:
+    src: cargo.j2
+    dest: "{{ demo_template_output_file }}"

@@ -1,0 +1,18 @@
+demo_user_name: holistics
+demo_user_group: holistics
+demo_source_path: /opt/app
+demo_git_repo_url: "https://github.com/trietphm/workshop-rails-vue"
+demo_git_repo_version: master
+demo_template_username: John
+demo_template_cargo:
+  - name: Apple
+    in_stock: true
+    price: $5
+  - name: Orange
+    in_stock: false
+    price: $4
+  - name: Peach
+    in_stock: true
+demo_template_output_path: "/opt/app"
+demo_template_output_name: "cargo.txt"
+demo_template_output_file: "{{ demo_template_output_path }}/{{ demo_template_output_name }}"

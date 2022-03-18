@@ -1,0 +1,14 @@
+- name: create new dir /opt/app
+  file:
+    path: "{{ demo_source_path }}"
+    state: directory
+    owner: "{{ demo_user_name }}"
+    group: "{{ demo_user_group }}"
+    mode: '0755'
+
+- name: clone source code
+  become_user: "{{ demo_user_name }}"
+  git:
+    repo: "{{ demo_git_repo_url }}"
+    dest: "{{ demo_source_path }}"
+    version: "{{ demo_git_repo_version }}"

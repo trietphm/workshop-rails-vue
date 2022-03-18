@@ -1,0 +1,4 @@
+- import_tasks: setup_package.yml
+- import_tasks: setup_users.yml
+- import_tasks: pull_source_code.yml
+- import_tasks: deploy_template.yml
