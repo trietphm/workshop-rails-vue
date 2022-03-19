@@ -1,0 +1,10 @@
+- hosts: unicorn
+  become: true
+  pre_tasks:
+    - name: Update repositories cache
+      apt:
+        update_cache: yes
+  roles:
+    - role: geerlingguy.nodejs
+      vars:
+      - nodejs_version: "12.x"

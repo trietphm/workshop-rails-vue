@@ -1,0 +1,9 @@
+- hosts: unicorn
+  tasks:
+    - name: foo
+      command: "echo 'foo'"
+
+- hosts: db
+  tasks:
+    - name: bar
+      command: "echo 'bar'"
