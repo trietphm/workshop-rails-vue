@@ -1,4 +1,11 @@
 - hosts: unicorn
   become: true
   roles:
-    - demo
+    - role: demo
+      vars:
+        - demo_template_username: Tony
+        - demo_git_repo_version: deploy
+  tasks:
+    - name: msg
+      debug:
+        msg: "hello"
