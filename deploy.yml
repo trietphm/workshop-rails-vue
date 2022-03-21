@@ -6,6 +6,7 @@
   vars_files:
     - vars/main.yml
     - vars/vault/database.yml
+    - vars/vault/secrets.yml
   pre_tasks:
     - name: get release version
       set_fact:
@@ -33,6 +34,29 @@
         owner: "{{ app_user }}"
         group: "{{ app_user }}"
         mode: '0755'
+    - name: ensure shared/logs folder is exists
+      file:
+        path: "{{ shared_dir }}/logs"
+        state: directory
+        owner: "{{ app_user }}"
+        group: "{{ app_user }}"
+        mode: '0755'
+
+    - name: ensure shared/pids folder is exists
+      file:
+        path: "{{ shared_dir }}/pids"
+        state: directory
+        owner: "{{ app_user }}"
+        group: "{{ app_user }}"
+        mode: '0755'
+
+    - name: ensure shared/tmp folder is exists
+      file:
+        path: "{{ shared_dir }}/tmp"
+        state: directory
+        owner: "{{ app_user }}"
+        group: "{{ app_user }}"
+        mode: '0755'
     - name: create folder release version
       file:
         path: "{{ release_version_path }}"
@@ -44,12 +68,16 @@
         dest: "{{ release_version_path }}"
     - name: deploy unicorn.rb
       template:
-        src: templates/unicorn.rb.j2
+        src: templates/config/unicorn.rb.j2
         dest: "{{ release_version_path }}/config/unicorn.rb"
+    - name: deploy secrets file
+      template:
+        src: templates/config/secrets.yml
+        dest: "{{ release_version_path }}/config/secrets.yml"
     - name: deploy database config
       template:
-        src: templates/database.conf.j2
-        dest: "{{ release_version_path }}/config/database.conf"
+        src: templates/database.yml.j2
+        dest: "{{ release_version_path }}/config/database.yml"
     - name: bundle install
       command: "{{ rvm1_shell }} -c 'bundle install --without development test'"
       args:
@@ -62,20 +90,28 @@
       command: "{{ rvm1_shell }} -c 'rails webpacker:compile'"
       args:
         chdir: "{{ release_version_path }}"
-    - name: stop old service
+    - name: run migrate
+      command: "{{ rvm1_shell }} -c 'rails db:migrate'"
+      args:
+        chdir: "{{ release_version_path }}"
+      run_once: true
+    - name: stop unicorn service
+      become_user: root
       service:
-        name: workshop_unicorn
+        name: workshop-unicorn
         state: stopped
     - name: update symlink
       file:
         state: link
         path: "{{ current_dir }}"
         src: "{{ release_version_path }}"
-    - name: stop old service
+    - name: start unicorn service
+      become_user: root
       service:
-        name: workshop_unicorn
+        name: workshop-unicorn
         state: started
     - name: reload nginx
+      become_user: root
       service:
         name: nginx
         state: reloaded

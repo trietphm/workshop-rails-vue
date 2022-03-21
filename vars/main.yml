@@ -21,7 +21,6 @@ rvm1_install_path: "/home/{{ app_user }}/.rvm"
 rvm1_user: "{{ app_user }}"
 # Fail when missing required package instead of hanging and require password input
 rvm1_autolib_mode: 2
-rvm1_bundle: "{{ rvm1_install_path }}/rubies/{{ rvm1_ruby_version }}/bin/bundle"
 rvm1_shell: "{{ rvm1_install_path }}/bin/rvm-shell {{ rvm1_ruby_version }}"
 
 database_host: "{{ groups['db'][0] }}"

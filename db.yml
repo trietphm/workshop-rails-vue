@@ -20,7 +20,7 @@
           - {type: local, database: all, user: all, auth_method: peer}
           - {type: host, database: all, user: all, address: '127.0.0.1/32', auth_method: "{{ postgresql_auth_method }}"}
           - {type: host, database: all, user: all, address: '::1/128', auth_method: "{{ postgresql_auth_method }}"}
-          - {type: host, database: workshop, user: workshop, address: "'{{ db_subnet }}'", auth_method: "{{ postgresql_auth_method }}"}
+          - {type: host, database: workshop, user: workshop, address: "{{ db_subnet }}", auth_method: "{{ postgresql_auth_method }}"}
         postgresql_global_config_options:
         - option: unix_socket_directories
           value: '{{ postgresql_unix_socket_directories | join(",") }}'

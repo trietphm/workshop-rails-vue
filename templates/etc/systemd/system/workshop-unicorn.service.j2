@@ -9,11 +9,12 @@
 Description = unicorn Rack application server %i
 
 [Service]
+Type=forking
 WorkingDirectory = {{ current_dir }}
 
 # bundler users must use the "--keep-file-descriptors" switch, here:
 # ExecStart = bundle exec --keep-file-descriptors unicorn -c ...
-ExecStart ={{ rvm1_bundle }} exec --keep-file-descriptors unicorn_rails -D -c config/unicorn.rb -E production
+ExecStart =/bin/bash -l -c 'bundle exec --keep-file-descriptors unicorn_rails -D -c config/unicorn.rb -E production'
 
 # NonBlocking MUST be true if using socket activation with unicorn.
 # Otherwise, there's a small window in-between when the non-blocking
