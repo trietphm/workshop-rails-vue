@@ -11,6 +11,7 @@
       vars:
         postgresql_databases:
           - name: workshop
+        # TODO hide in vault
         postgresql_users:
           - name: workshop
             password: supersecure

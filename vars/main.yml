@@ -1,0 +1,28 @@
+app_user: workshop
+app_group: workshop
+app_dir: /opt/app
+release_dir: "{{ app_dir }}/releases"
+shared_dir: "{{ app_dir }}/shared"
+current_dir: "{{ app_dir }}/current"
+unicorn_sock_file: "{{ shared_dir }}/tmp/workshop.unicorn.sock"
+unicorn_pid_file: "{{ shared_dir }}/pids/workshop.unicorn.pid"
+unicorn_log: "{{ shared_dir }}/logs/unicorn.log"
+release_version_path: "{{ release_dir }}/{{ release_version }}"
+git_repo_url: "https://github.com/trietphm/workshop-rails-vue"
+git_branch: master
+
+nodejs_version: "14.x"
+
+rvm1_ruby_version: "ruby-2.7.4"
+rvm1_rubies:
+  - "{{ rvm1_ruby_version }}"
+rvm1_install_flags: '--auto-dotfiles --user-install'
+rvm1_install_path: "/home/{{ app_user }}/.rvm"
+rvm1_user: "{{ app_user }}"
+# Fail when missing required package instead of hanging and require password input
+rvm1_autolib_mode: 2
+rvm1_bundle: "{{ rvm1_install_path }}/rubies/{{ rvm1_ruby_version }}/bin/bundle"
+rvm1_shell: "{{ rvm1_install_path }}/bin/rvm-shell {{ rvm1_ruby_version }}"
+
+database_host: "{{ groups['db'][0] }}"
+database_pool: 5

@@ -1,0 +1,82 @@
+- hosts: unicorn
+  become: true
+  become_user: workshop
+  environment:
+    RAILS_ENV: production
+  vars_files:
+    - vars/main.yml
+    - vars/vault/database.yml
+  pre_tasks:
+    - name: get release version
+      set_fact:
+        release_version: "{{ lookup('pipe', 'date -u +%Y%m%d%H%M%S') }}"
+  tasks:
+    - name: ensure base folder is exists
+      become_user: root
+      file:
+        path: "{{ app_dir }}"
+        state: directory
+        owner: "{{ app_user }}"
+        group: "{{ app_user }}"
+        mode: '0755'
+    - name: ensure release folder is exists
+      file:
+        path: "{{ release_dir }}"
+        state: directory
+        owner: "{{ app_user }}"
+        group: "{{ app_user }}"
+        mode: '0755'
+    - name: ensure shared folder is exists
+      file:
+        path: "{{ shared_dir }}"
+        state: directory
+        owner: "{{ app_user }}"
+        group: "{{ app_user }}"
+        mode: '0755'
+    - name: create folder release version
+      file:
+        path: "{{ release_version_path }}"
+        state: directory
+        owner: "{{ app_user }}"
+    - name: pull new code
+      git:
+        repo: "{{ git_repo_url }}"
+        dest: "{{ release_version_path }}"
+    - name: deploy unicorn.rb
+      template:
+        src: templates/unicorn.rb.j2
+        dest: "{{ release_version_path }}/config/unicorn.rb"
+    - name: deploy database config
+      template:
+        src: templates/database.conf.j2
+        dest: "{{ release_version_path }}/config/database.conf"
+    - name: bundle install
+      command: "{{ rvm1_shell }} -c 'bundle install --without development test'"
+      args:
+        chdir: "{{ release_version_path }}"
+    - name: yarn install
+      command: "yarn install"
+      args:
+        chdir: "{{ release_version_path }}"
+    - name: webpack compile
+      command: "{{ rvm1_shell }} -c 'rails webpacker:compile'"
+      args:
+        chdir: "{{ release_version_path }}"
+    - name: stop old service
+      service:
+        name: workshop_unicorn
+        state: stopped
+    - name: update symlink
+      file:
+        state: link
+        path: "{{ current_dir }}"
+        src: "{{ release_version_path }}"
+    - name: stop old service
+      service:
+        name: workshop_unicorn
+        state: started
+    - name: reload nginx
+      service:
+        name: nginx
+        state: reloaded
+    # TODO rotate and keep only 5 release version folder

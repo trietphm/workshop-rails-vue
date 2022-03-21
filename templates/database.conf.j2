@@ -1,0 +1,9 @@
+production:
+  adapter: postgresql
+  encoding: unicode
+  database: {{ database_name }}
+  schema_search_path: public
+  pool: {{ database_pool }}
+  host: {{ database_host }}
+  username: {{ database_user }}
+  password: {{ database_password }}
