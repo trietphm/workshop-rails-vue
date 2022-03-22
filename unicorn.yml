@@ -41,6 +41,10 @@
       template:
         src: templates/etc/nginx/sites-enabled/workshop
         dest: /etc/nginx/sites-enabled/workshop
+    - name: Remove default nginx config if exists
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
     - name: Deploy systemd unit
       template:
         src: templates/etc/systemd/system/workshop-unicorn.service.j2
@@ -51,5 +55,4 @@
     - name: enable service
       systemd:
         name: workshop-unicorn
-        state: started
         enabled: yes
