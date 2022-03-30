@@ -1,0 +1,14 @@
+- hosts: localhost
+  tasks:
+    - name: set variable values
+      set_fact:
+        const_date: "2022-03-23"
+    - name: execute date command
+      command: "date"
+      register: date_result
+    - name: set result
+      set_fact:
+        current_date: "{{ date_result.stdout }}"
+    - name: debug
+      debug:
+        msg: "{{ const_date }}, {{ current_date }}"
