@@ -1,0 +1,7 @@
+- name: install package unzip
+  become: true
+  apt:
+    name:
+      - zip
+      - unzip
+    state: present

@@ -1,0 +1,5 @@
+- hosts: unicorn
+  roles:
+  - role: hello
+    vars:
+      hello_cow_message: "ABCD"
